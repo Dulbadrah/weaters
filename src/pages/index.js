@@ -15,6 +15,7 @@ export default function Home() {
 
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=47.921230&lon=106.918556&inits=metric&appid=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}`;
   const cityUrl = `https://www.api-ninjas.com/api/city?name=tokyo`;
+
   const getWeather = async () => {
     try {
       const response = await fetch(url);
