@@ -13,12 +13,28 @@ import { useState } from "react";
 export default function Home() {
   const [weather, setWeather] = useState({});
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=47.921230&lon=106.918556&inits=metric&appid=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}`;
   const cityUrl = `https://www.api-ninjas.com/api/city?name=tokyo`;
+  const getCity = async () => {
+    try {
+      const response = await fetch(cityUrl, {
+        headers: {
+          "X-Api-key": process.env.NEXT_PUBLIC_WEATHER_API_KEY
+        },
+      });
+      const data = await response.json();
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   const getWeather = async () => {
     try {
-      const response = await fetch(url);
+      const cityLocation = await getCity();
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${cityLocation[0].latitude}&lon=${cityLocation[0].longitude}&units=metric&appid=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}`
+      )
+
       const data = await response.json();
       console.log(data);
       setWeather(data);
@@ -48,7 +64,7 @@ export default function Home() {
                 className="text-black border p-2 w-fit"
               >
                 {" "}
-                setWeather
+                click me
               </button>
             </div>
           </div>
